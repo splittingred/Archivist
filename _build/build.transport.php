@@ -141,6 +141,7 @@ $attributes= array(
     ),
 );
 $vehicle = $builder->createVehicle($plugin,$attributes);
+$builder->putVehicle($vehicle);
 
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes(array(

@@ -83,7 +83,6 @@ if (!empty($tagsIndex) && isset($_REQUEST[$tagsIndex])) {
 
 /* set default properties */
 $output = array();
-$tpl = !empty($tpl) ? $tpl : '';
 $tpl = $modx->getOption('tpl',$scriptProperties,'');
 $includeContent = $modx->getOption('includeContent',$scriptProperties,false);
 $includeTVs = $modx->getOption('includeTVs',$scriptProperties,false);
@@ -91,6 +90,7 @@ $processTVs = $modx->getOption('processTVs',$scriptProperties,false);
 $parents = explode(',',$modx->getOption('parents',$scriptProperties,$modx->resource->get('id')));
 $tvPrefix = $modx->getOption('tvPrefix',$scriptProperties,'tv.');
 $depth = (int)$modx->getOption('depth',$scriptProperties,10);
+$hideContainers = $modx->getOption('hideContainers',$scriptProperties,true);
 $where = $modx->getOption('where',$scriptProperties,false);
 
 /* find children of parents */

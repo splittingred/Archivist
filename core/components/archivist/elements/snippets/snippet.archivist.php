@@ -33,8 +33,9 @@ if (!($archivist instanceof Archivist)) return '';
 
 /* setup default properties */
 $tpl = $modx->getOption('tpl',$scriptProperties,'row');
-$parents = explode(',',$modx->getOption('parents',$scriptProperties,$modx->resource->get('id')));
-$target = $modx->getOption('target',$scriptProperties,$modx->resource->get('id'));
+$parents = !empty($scriptProperties['parents']) ? $scriptProperties['parents'] : $modx->resource->get('id');
+$parents = explode(',',$parents);
+$target = !empty($scriptProperties['target']) ? $scriptProperties['target'] : $modx->resource->get('id');
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
 $depth = $modx->getOption('depth',$scriptProperties,10);
@@ -47,9 +48,10 @@ $firstCls = $modx->getOption('firstCls',$scriptProperties,'');
 $filterPrefix = $modx->getOption('filterPrefix',$scriptProperties,'arc_');
 $useMonth = $modx->getOption('useMonth',$scriptProperties,true);
 $useDay = $modx->getOption('useDay',$scriptProperties,false);
-$dateFormat = $modx->getOption('dateFormat',$scriptProperties,'');
+$dateFormat = !empty($scriptProperties['dateFormat']) ? $scriptProperties['dateFormat'] : '';
 $limit = $modx->getOption('limit',$scriptProperties,10);
 $start = $modx->getOption('start',$scriptProperties,0);
+$hideContainers = $modx->getOption('hideContainers',$scriptProperties,true);
 $useFurls = $modx->getOption('useFurls',$scriptProperties,true);
 $persistGetParams = $modx->getOption('persistGetParams',$scriptProperties,false);
 
@@ -90,6 +92,11 @@ $c->select(array(
 $c->where(array(
     '`parent` IN ('.implode(',',$parents).')',
 ));
+if ($hideContainers) {
+    $c->where(array(
+        'isfolder' => false,
+    ));
+}
 $c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
 $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$dateFormat.'")');
 /* if limiting to X records */
