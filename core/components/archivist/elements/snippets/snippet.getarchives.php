@@ -40,6 +40,9 @@ $filterPrefix = $modx->getOption('filterPrefix',$scriptProperties,'arc_');
 $filterField = $modx->getOption('filterField',$scriptProperties,'publishedon');
 $tagsIndex = $modx->getOption('tagsIndex',$scriptProperties,'tags');
 
+/* first off, let's sync the archivist.archive_ids setting */
+$archivist->makeArchive($modx->resource->get('id'),$filterPrefix);
+
 /* get filter by year, month, and/or day. Sanitize to prevent injection. */
 $where = array();
 $year = $modx->getOption($filterPrefix.'year',$_REQUEST,$modx->getOption('year',$scriptProperties,''));

@@ -50,7 +50,12 @@ $useDay = $modx->getOption('useDay',$scriptProperties,false);
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'');
 $limit = $modx->getOption('limit',$scriptProperties,10);
 $start = $modx->getOption('start',$scriptProperties,0);
-$extraParams = $modx->getOption('extraParams',$scriptProperties,'');
+$useFurls = $modx->getOption('useFurls',$scriptProperties,true);
+$persistGetParams = $modx->getOption('persistGetParams',$scriptProperties,false);
+
+/* handle existing GET params */
+$extraParams = $modx->getOption('extraParams',$scriptProperties,array());
+$extraParams = $archivist->mergeGetParams($extraParams,$persistGetParams,$filterPrefix);
 
 /* find children of parents */
 $children = array();
@@ -119,9 +124,16 @@ foreach ($resources as $resource) {
             $resourceArray['date'] = $resource->get('month_name').' '.$resource->get('day_formatted').', '.$resource->get('year');
         }
     }
-    $params = http_build_query($params);
-    if (!empty($extraParams)) $params .= '&'.$extraParams;
-    $resourceArray['url'] = $modx->makeUrl($target,'',$params);
+
+    if ($useFurls) {
+        $params = implode('/',$params);
+        if (!empty($extraParams)) $params .= '?'.$extraParams;
+        $resourceArray['url'] = $modx->makeUrl($target).$params;
+    } else {
+        $params = http_build_query($params);
+        if (!empty($extraParams)) $params .= '&'.$extraParams;
+        $resourceArray['url'] = $modx->makeUrl($target,'',$params);
+    }
 
     $output .= $archivist->getChunk($tpl,$resourceArray);
     $idx++;

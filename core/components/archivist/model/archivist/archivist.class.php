@@ -114,4 +114,56 @@ class Archivist {
         $month = date('Y').'-'.$month.'-01';
         return date('F',strtotime($month));
     }
+
+
+    /**
+     * Merge GET params and any others into a cohesive query string
+     */
+    public function mergeGetParams($array,$persistGetParams = false,$prefix = 'arc_') {
+        if ($persistGetParams) {
+            $getParams = $_GET;
+            unset($getParams[$this->modx->getOption('request_param_alias',null,'q')],$getParams[$prefix.'year'],$getParams[$prefix.'month'],$getParams[$prefix.'day']);
+        } else { $getParams = array(); }
+
+        $array = explode('&',$array);
+        $params = array();
+        foreach ($array as $nvp) {
+            $nvp = explode('=',$nvp);
+            $params[$nvp[0]] = $nvp[1];
+        }
+        $params = array_merge($getParams,$params);
+        return http_build_query($params);
+    }
+
+    /**
+     * Setup this resource as an archive so that FURLs can be effectively mapped
+     *
+     * @param integer $resourceId The ID of the resource to allow as an archive
+     * @param string $prefix The filterPrefix used by that archive
+     */
+    public function makeArchive($resourceId,$prefix = 'arc_') {
+        $value = $resourceId.':'.$prefix;
+        
+        $setting = $this->modx->getObject('modSystemSetting',array(
+            'key' => 'archivist.archive_ids',
+        ));
+        if (!$setting) {
+            $setting = $this->modx->newObject('modSystemSetting');
+            $setting->fromArray(array(
+                'key' => 'archivist.archive_ids',
+                'namespace' => 'archivist',
+                'area' => 'furls',
+                'xtype' => 'textfield',
+            ),'',true,true);
+        } else {
+            $oldValue = $setting->get('value');
+            if (strpos($oldValue,$resourceId.':') !== false) { /* dont append if already there */
+                $value = $oldValue;
+            } else {
+                $value = $oldValue.','.$value;
+            }
+        }
+        $setting->set('value',$value);
+        return $setting->save();
+    }
 }

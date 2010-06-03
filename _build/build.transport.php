@@ -108,6 +108,40 @@ $vehicle->resolve('file',array(
 $modx->log(modX::LOG_LEVEL_INFO,'Packaged in resolvers.'); flush();
 $builder->putVehicle($vehicle);
 
+/* add plugin */
+$modx->log(modX::LOG_LEVEL_INFO,'Packaging in plugin...');
+$plugin= $modx->newObject('modPlugin');
+$plugin->fromArray(array(
+    'id' => 1,
+    'name' => 'ArchivistFurl',
+    'description' => 'Handles FURLs for Archivist.',
+    'plugincode' => getSnippetContent($sources['elements'].'plugins/plugin.archivistfurl.php'),
+),'',true,true);
+    $events = array();
+    $events['OnPageNotFound']= $modx->newObject('modPluginEvent');
+    $events['OnPageNotFound']->fromArray(array(
+        'event' => 'OnPageNotFound',
+        'priority' => 0,
+        'propertyset' => 0,
+    ),'',true,true);
+    $plugin->addMany($events);
+    unset($events);
+
+$attributes= array(
+    xPDOTransport::UNIQUE_KEY => 'name',
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array (
+        'PluginEvents' => array(
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => false,
+            xPDOTransport::UNIQUE_KEY => array('pluginid','event'),
+        ),
+    ),
+);
+$vehicle = $builder->createVehicle($plugin,$attributes);
+
 /* now pack in the license file, readme and setup options */
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
