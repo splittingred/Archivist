@@ -34,7 +34,10 @@ $archiveIds = explode(',',$archiveIds);
 
 /* handle redirects */
 $search = $_SERVER['REQUEST_URI'];
-$search = str_replace($modx->getOption('base_url'),'',$search);
+$base_url = $modx->getOption('base_url');
+if ($base_url != '/') {
+    $search = str_replace($base_url,'',$search);
+}
 $search = trim($search, '/');
 
 /* get resource to redirect to */
@@ -44,7 +47,7 @@ foreach ($archiveIds as $archive) {
     $archive = explode(':',$archive);
     $archiveId = $archive[0];
     $alias = array_search($archiveId,$modx->aliasMap);
-    if ($alias) {
+    if ($alias && strpos($search,$alias) !== false) {
         $search = str_replace($alias,'',$search);
         $resourceId = $archiveId;
         if (isset($archive[1])) $prefix = $archive[1];
@@ -64,3 +67,4 @@ if (isset($params[2])) $_REQUEST[$prefix.'day'] = $params[2];
 /* forward */
 $modx->sendForward($resourceId);
 return;
+?>
