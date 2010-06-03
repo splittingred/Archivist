@@ -109,6 +109,20 @@ $properties = array(
         'value' => '',
     ),
     array(
+        'name' => 'useFurls',
+        'desc' => 'If true, will generate links in pretty Friendly URL format.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
+    array(
+        'name' => 'persistGetParams',
+        'desc' => 'If true, links generated will persist the GET params of the page they are on. Not recommended.',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+    ),
+    array(
         'name' => 'extraParams',
         'desc' => 'Optional. If specified, will attach this to the URL of each row.',
         'type' => 'textfield',
