@@ -143,6 +143,7 @@ class Archivist {
      */
     public function makeArchive($resourceId,$prefix = 'arc_') {
         $value = $resourceId.':'.$prefix;
+        $isNew = false;
         
         $setting = $this->modx->getObject('modSystemSetting',array(
             'key' => 'archivist.archive_ids',
@@ -155,6 +156,7 @@ class Archivist {
                 'area' => 'furls',
                 'xtype' => 'textfield',
             ),'',true,true);
+            $isNew = true;
         } else {
             $oldValue = $setting->get('value');
             if (strpos($oldValue,$resourceId.':') !== false) { /* dont append if already there */
@@ -164,6 +166,28 @@ class Archivist {
             }
         }
         $setting->set('value',$value);
-        return $setting->save();
+        $saved = $setting->save();
+        if ($isNew) {
+            $this->_clearCache();
+        }
+        return $saved;
+    }
+
+    /**
+     * Assistance method for makeArchive's cache clear
+     */
+    private function _clearCache() {
+        $paths = array(
+            'config.cache.php',
+            'sitePublishing.idx.php',
+            $this->modx->context->get('key').'/',
+        );
+        $options = array(
+            'publishing' => 1,
+            'extensions' => array('.cache.php', '.msg.php', '.tpl.php'),
+        );
+        if ($this->modx->getOption('cache_db')) $options['objects'] = '*';
+
+        return $this->modx->cacheManager->clearCache($paths, $options);
     }
 }
