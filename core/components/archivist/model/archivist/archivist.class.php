@@ -1,5 +1,29 @@
 <?php
 /**
+ * Archivist
+ *
+ * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ *
+ * This file is part of Archivist, a simple archive navigation system for MODx
+ * Revolution.
+ *
+ * Archivist is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * Archivist is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * Archivist; if not, write to the Free Software Foundation, Inc., 59 Temple
+ * Place, Suite 330, Boston, MA 02111-1307 USA
+ *
+ * @package archivist
+ */
+/**
  * The base class for Archivist
  *
  * @package archivist
@@ -68,12 +92,24 @@ class Archivist {
         return $chunk;
     }
 
+    /**
+     * Clean a string of modx and html tags, and other problem strings
+     *
+     * @param string $text The string to sanitize
+     * @return string The sanitized string
+     */
     public function sanitize($text) {
         $text = strip_tags($text);
         $text = preg_replace('/(\[\[\+.*?\]\])/i', '', $text);
         return $this->modx->stripTags($text);
     }
 
+    /**
+     * Translate a month numeric to its word equivalent
+     *
+     * @param int $month The number index of the month
+     * @return string The translated string of the month
+     */
     public function translateMonth($month) {
         $month = date('Y').'-'.$month.'-01';
         return date('F',strtotime($month));
