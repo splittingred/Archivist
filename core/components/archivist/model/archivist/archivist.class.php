@@ -67,4 +67,15 @@ class Archivist {
         }
         return $chunk;
     }
+
+    public function sanitize($text) {
+        $text = strip_tags($text);
+        $text = preg_replace('/(\[\[\+.*?\]\])/i', '', $text);
+        return $this->modx->stripTags($text);
+    }
+
+    public function translateMonth($month) {
+        $month = date('Y').'-'.$month.'-01';
+        return date('F',strtotime($month));
+    }
 }
