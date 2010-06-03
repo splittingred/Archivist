@@ -8,6 +8,7 @@ $archivist = $modx->getService('archivist','Archivist',$modx->getOption('archivi
 if (!($archivist instanceof Archivist)) return '';
 
 /* setup default properties */
+$tpl = $modx->getOption('tpl',$scriptProperties,'row');
 $parents = explode(',',$modx->getOption('parents',$scriptProperties,$modx->resource->get('id')));
 $target = $modx->getOption('target',$scriptProperties,$modx->resource->get('id'));
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
@@ -25,6 +26,7 @@ $useDay = $modx->getOption('useDay',$scriptProperties,false);
 $dateFormat = $modx->getOption('dateFormat',$scriptProperties,'');
 $limit = $modx->getOption('limit',$scriptProperties,10);
 $start = $modx->getOption('start',$scriptProperties,0);
+$extraParams = $modx->getOption('extraParams',$scriptProperties,'');
 
 /* find children of parents */
 $children = array();
@@ -59,13 +61,13 @@ $c->select(array(
 $c->where(array(
     '`parent` IN ('.implode(',',$parents).')',
 ));
-$c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir,'');
+$c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
 $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$dateFormat.'")');
-if (!empty($limit)) {
-    $c->limit($limit,$start);
-}
+/* if limiting to X records */
+if (!empty($limit)) { $c->limit($limit,$start); }
 $resources = $modx->getCollection('modResource',$c);
 
+/* iterate over resources */
 $output = '';
 $idx = 0;
 $count = count($resources);
@@ -78,24 +80,33 @@ foreach ($resources as $resource) {
     if ($idx == 0 && !empty($firstCls)) { $resourceArray['cls'] .= ' '.$firstCls; }
     if ($idx+1 == $count && !empty($lastCls)) { $resourceArray['cls'] .= ' '.$lastCls; }
 
+    /* setup GET params */
     $params = array();
     $params[$filterPrefix.'year'] = $resource->get('year');
+
+    /* if using month filter */
     if ($useMonth) {
         $params[$filterPrefix.'month'] = $resource->get('month');
     }
+    /* if using day filter (why you would ever is beyond me...) */
     if ($useDay) {
         $params[$filterPrefix.'day'] = $resource->get('day');
         if (empty($scriptProperties['dateFormat'])) {
             $resourceArray['date'] = $resource->get('month_name').' '.$resource->get('day_formatted').', '.$resource->get('year');
         }
     }
+    $params = http_build_query($params);
+    if (!empty($extraParams)) $params .= '&'.$extraParams;
     $resourceArray['url'] = $modx->makeUrl($target,'',$params);
-    $output .= $archivist->getChunk('row',$resourceArray);
+
+    $output .= $archivist->getChunk($tpl,$resourceArray);
     $idx++;
 }
 
+/* output or set to placeholder */
 $toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
 if (!empty($toPlaceholder)) {
     $modx->setPlaceholder($toPlaceholder,$output);
     return '';
 }
+return $output;

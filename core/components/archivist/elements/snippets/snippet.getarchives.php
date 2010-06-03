@@ -14,6 +14,7 @@ if (!($archivist instanceof Archivist)) return '';
 /* setup some getArchives-specific properties */
 $filterPrefix = $modx->getOption('filterPrefix',$scriptProperties,'arc_');
 $filterField = $modx->getOption('filterField',$scriptProperties,'publishedon');
+$tagsIndex = $modx->getOption('tagsIndex',$scriptProperties,'tags');
 
 /* get filter by year, month, and/or day. Sanitize to prevent injection. */
 $where = array();
@@ -39,6 +40,17 @@ if (!empty($day)) {
     $where[] = 'FROM_UNIXTIME(`'.$filterField.'`,"%d") = "'.$day.'"';
 }
 $scriptProperties['where'] = $modx->toJSON($where);
+
+/* automatically integrate for tags (fun!) */
+if (!empty($tagsIndex) && isset($_REQUEST[$tagsIndex])) {
+    $tags = $archivist->sanitize($_REQUEST[$tagsIndex]);
+    if (empty($scriptProperties['tvFilters'])) {
+        $scriptProperties['tvFilters'] = $tagsIndex.'==%'.$tags.'%';
+    } else {
+        $scriptProperties['tvFilters'] .= ','.$tagsIndex.'==%'.$tags.'%';
+    }
+}
+
 
 /* below this is mostly getResources code, with extra 'where' and 'toPlaceholder' parameters */
 
