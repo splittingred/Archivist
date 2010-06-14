@@ -2,5 +2,6 @@ Changelog for Archivist.
 
 Archivist 1.0.0
 ===============
+- Added fix for locale support
 - Added dynamic FURL support
 - Initial commit.

@@ -171,5 +171,12 @@ $properties = array(
         'options' => '',
         'value' => '',
     ),
+    array(
+        'name' => 'setLocale',
+        'desc' => 'If true, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => true,
+    ),
 );
 return $properties;

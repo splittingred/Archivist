@@ -69,24 +69,23 @@ if (!empty($children)) $parents = array_merge($parents, $children);
 
 /* get filter format */
 if (empty($dateFormat)) {
-    $dateFormat = '%Y';
-    if ($useMonth) $dateFormat = '%M '.$dateFormat;
-    if ($useDay) $dateFormat = '%d '.$dateFormat;
+    $dateFormat = $sqlDateFormat = '%Y';
+    if ($useMonth) {
+        $dateFormat = '%B '.$dateFormat;
+        $sqlDateFormat = '%b '.$sqlDateFormat;
+    }
+    if ($useDay) {
+        $dateFormat = '%d '.$dateFormat;
+        $sqlDateFormat = '%d '.$sqlDateFormat;
+    }
 }
 /* build query */
 $c = $modx->newQuery('modResource');
-$fields = $modx->getSelectColumns('modResource','','',array('id'));
+$fields = $modx->getSelectColumns('modResource','','',array('id',$sortBy));
 $c->select($fields);
 $c->select(array(
-    'FROM_UNIXTIME(`'.$sortBy.'`,"'.$dateFormat.'") AS `date`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%b") AS `month_name_abbr`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%M") AS `month_name`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%m") AS `month`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%Y") AS `year`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%d") AS `day`',
+    'FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'") AS `date`',
     'FROM_UNIXTIME(`'.$sortBy.'`,"%D") AS `day_formatted`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%W") AS `weekday`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%w") AS `weekday_idx`',
     'COUNT(*) AS `count`',
 ));
 $c->where(array(
@@ -98,10 +97,16 @@ if ($hideContainers) {
     ));
 }
 $c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
-$c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$dateFormat.'")');
+$c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'")');
 /* if limiting to X records */
 if (!empty($limit)) { $c->limit($limit,$start); }
 $resources = $modx->getCollection('modResource',$c);
+
+/* set culture key */
+$cultureKey = $modx->getOption('cultureKey',null,'en');
+if ($cultureKey != 'en' && $modx->getOption('setLocale',$scriptProperties,true)) {
+    setlocale(LC_ALL,$cultureKey);
+}
 
 /* iterate over resources */
 $output = '';
@@ -109,6 +114,21 @@ $idx = 0;
 $count = count($resources);
 foreach ($resources as $resource) {
     $resourceArray = $resource->toArray();
+
+    $date = $resource->get($sortBy);
+    $dateObj = strtotime($date);
+    
+    $resourceArray['date'] = strftime($dateFormat,$dateObj);
+    $resourceArray['month_name_abbr'] = strftime('%h',$dateObj);
+    $resourceArray['month_name'] = strftime('%B',$dateObj);
+    $resourceArray['month'] = strftime('%m',$dateObj);
+    $resourceArray['year'] = strftime('%Y',$dateObj);
+    $resourceArray['year_two_digit'] = strftime('%y',$dateObj);
+    $resourceArray['day'] = strftime('%d',$dateObj);
+    $resourceArray['weekday'] = strftime('%A',$dateObj);
+    $resourceArray['weekday_abbr'] = strftime('%a',$dateObj);
+    $resourceArray['weekday_idx'] = strftime('%w',$dateObj);
+
 
     /* css classes */
     $resourceArray['cls'] = $cls;
