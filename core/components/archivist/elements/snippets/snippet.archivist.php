@@ -85,6 +85,7 @@ $fields = $modx->getSelectColumns('modResource','','',array('id',$sortBy));
 $c->select($fields);
 $c->select(array(
     'FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'") AS `date`',
+    'FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'") AS `date`',
     'FROM_UNIXTIME(`'.$sortBy.'`,"%D") AS `day_formatted`',
     'COUNT(*) AS `count`',
 ));
@@ -138,17 +139,17 @@ foreach ($resources as $resource) {
 
     /* setup GET params */
     $params = array();
-    $params[$filterPrefix.'year'] = $resource->get('year');
+    $params[$filterPrefix.'year'] = $resourceArray['year'];
 
     /* if using month filter */
     if ($useMonth) {
-        $params[$filterPrefix.'month'] = $resource->get('month');
+        $params[$filterPrefix.'month'] = $resourceArray['month'];
     }
     /* if using day filter (why you would ever is beyond me...) */
     if ($useDay) {
-        $params[$filterPrefix.'day'] = $resource->get('day');
+        $params[$filterPrefix.'day'] = $resourceArray['day'];
         if (empty($scriptProperties['dateFormat'])) {
-            $resourceArray['date'] = $resource->get('month_name').' '.$resource->get('day_formatted').', '.$resource->get('year');
+            $resourceArray['date'] = $resourceArray['month_name'].' '.$resourceArray['day'].', '.$resourceArray['year'];
         }
     }
 
