@@ -92,6 +92,10 @@ $c->select(array(
 $c->where(array(
     '`parent` IN ('.implode(',',$parents).')',
 ));
+/* don't grab unpublished resources */
+$c->where(array(
+    'published' => true,
+));
 if ($hideContainers) {
     $c->where(array(
         'isfolder' => false,
