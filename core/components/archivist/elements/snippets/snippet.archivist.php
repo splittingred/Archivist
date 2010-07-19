@@ -94,6 +94,10 @@ $c->where(array(
     'published' => true,
     'deleted' => false,
 ));
+/* don't grab unpublished resources */
+$c->where(array(
+    'published' => true,
+));
 if ($hideContainers) {
     $c->where(array(
         'isfolder' => false,
