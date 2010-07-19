@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.0.0
 ===============
+- Fixed bug where unpublished/deleted were showing in Archivist snippet
 - Added fix for locale support
 - Added dynamic FURL support
 - Initial commit.

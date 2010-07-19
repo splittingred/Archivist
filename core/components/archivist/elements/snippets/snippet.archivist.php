@@ -91,6 +91,8 @@ $c->select(array(
 ));
 $c->where(array(
     '`parent` IN ('.implode(',',$parents).')',
+    'published' => true,
+    'deleted' => false,
 ));
 if ($hideContainers) {
     $c->where(array(
