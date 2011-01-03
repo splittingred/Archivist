@@ -39,6 +39,7 @@ $target = !empty($scriptProperties['target']) ? $scriptProperties['target'] : $m
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
 $depth = $modx->getOption('depth',$scriptProperties,10);
+$where = $modx->getOption('where',$scriptProperties,'');
 
 $cls = $modx->getOption('cls',$scriptProperties,'arc-row');
 $altCls = $modx->getOption('altCls',$scriptProperties,'arc-row-alt');
@@ -102,6 +103,10 @@ if ($hideContainers) {
     $c->where(array(
         'isfolder' => false,
     ));
+}
+if (!empty($where)) {
+    $where = $modx->fromJSON($where);
+    $c->where($where);
 }
 $c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
 $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'")');

@@ -2,7 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.0.1
 ===============
-
+- [#7] Add &where parameter to getArchives snippet for easier filtering
 
 Archivist 1.0.0
 ===============
