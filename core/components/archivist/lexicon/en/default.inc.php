@@ -30,3 +30,4 @@
  * @subpackage lexicon
  * @language en
  */
+$_lang['archivist'] = 'Archivist';
