@@ -38,8 +38,8 @@ set_time_limit(0);
 /* define package */
 define('PKG_NAME','Archivist');
 define('PKG_NAME_LOWER','archivist');
-define('PKG_VERSION','1.0.0');
-define('PKG_RELEASE','pl');
+define('PKG_VERSION','1.0.1');
+define('PKG_RELEASE','rc1');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';
@@ -147,6 +147,7 @@ $builder->putVehicle($vehicle);
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),
     'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
+    'changelog' => file_get_contents($sources['docs'] . 'changelog.txt'),
     //'setup-options' => array(
 //        'source' => $sources['build'].'setup.options.php',
   //  ),
