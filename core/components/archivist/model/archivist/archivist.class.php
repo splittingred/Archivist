@@ -112,7 +112,7 @@ class Archivist {
      */
     public function translateMonth($month) {
         $month = date('Y').'-'.$month.'-01';
-        return date('F',strtotime($month));
+        return strftime('%B',strtotime($month));
     }
 
 
