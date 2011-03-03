@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.0.1
 ===============
+- [#9] Fix bug with tvFilters in getArchives
 - i18n of Snippet Properties
 - [#5] Fix issue with localization and placeholders
 - [#7] Add &where parameter to getArchives snippet for easier filtering

@@ -101,7 +101,7 @@ foreach ($parents as $parent) {
 }
 if (!empty($children)) $parents = array_merge($parents, $children);
 
-$tvFilters = !empty($tvFilters) ? explode('||', $tvFilters) : array();
+$tvFilters = !empty($scriptProperties['tvFilters']) ? explode('||', $scriptProperties['tvFilters']) : array();
 
 $sortby = $modx->getOption('sortby',$scriptProperties,'publishedon');
 $sortbyAlias = $modx->getOption('sortbyAlias',$scriptProperties,'modResource');
