@@ -59,7 +59,7 @@ if (!empty($month)) {
     $modx->setPlaceholder($filterPrefix.'month_name',$archivist->translateMonth($month));
     $where[] = 'FROM_UNIXTIME(`'.$filterField.'`,"%m") = "'.$month.'"';
 }
-$month = $modx->getOption($filterPrefix.'day',$_REQUEST,$modx->getOption('day',$scriptProperties,''));
+$day = $modx->getOption($filterPrefix.'day',$_REQUEST,$modx->getOption('day',$scriptProperties,''));
 $day = (int)$archivist->sanitize($day);
 if (!empty($day)) {
     if (strlen($day) == 1) $day = '0'.$day;
