@@ -2,7 +2,7 @@
 /**
  * Archivist
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010-2011 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Archivist, a simple archive navigation system for MODx
  * Revolution.
@@ -28,7 +28,7 @@
  *
  * Used to display a list of Resources for a given archive state.
  *
- * Written by Shaun McCormick <shaun@modxcms.com>. Based on getResources by Jason Coward <jason@modxcms.com>
+ * Written by Shaun McCormick <shaun@modx.com>. Based on getResources by Jason Coward <jason@modxcms.com>
  *
  * @package archivist
  */

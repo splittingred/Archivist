@@ -2,7 +2,7 @@
 /**
  * Archivist
  *
- * Copyright 2010 by Shaun McCormick <shaun@modxcms.com>
+ * Copyright 2010-2011 by Shaun McCormick <shaun@modx.com>
  *
  * This file is part of Archivist, a simple archive navigation system for MODx
  * Revolution.
@@ -39,7 +39,7 @@ set_time_limit(0);
 define('PKG_NAME','Archivist');
 define('PKG_NAME_LOWER','archivist');
 define('PKG_VERSION','1.0.2');
-define('PKG_RELEASE','rc1');
+define('PKG_RELEASE','pl');
 
 /* define sources */
 $root = dirname(dirname(__FILE__)).'/';
