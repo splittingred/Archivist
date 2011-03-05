@@ -53,6 +53,7 @@ $_lang['prop_archivist.lastcls_desc'] = 'Optional. A CSS class to add to the las
 $_lang['prop_archivist.filterprefix_desc'] = 'The prefix to use for GET parameters with the Archivist links. Make sure this is the same as the filterPrefix parameter on the getArchives snippet call.';
 $_lang['prop_archivist.toplaceholder_desc'] = 'If set, will set the output of this snippet to this placeholder rather than output it.';
 $_lang['prop_archivist.setlocale_desc'] = 'If true, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".';
+$_lang['prop_archivist.locale_desc'] = 'If this is set and setLocale is 1, will use this value instead of the cultureKey setting to set the locale by.';
 
 /* getArchives snippet */
 $_lang['prop_getarchives.tpl_desc'] = 'Name of a chunk serving as a resource template.';

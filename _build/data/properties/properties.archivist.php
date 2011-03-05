@@ -199,5 +199,13 @@ $properties = array(
         'value' => true,
         'lexicon' => 'archivist:properties',
     ),
+    array(
+        'name' => 'locale',
+        'desc' => 'prop_archivist.locale_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => true,
+        'lexicon' => 'archivist:properties',
+    ),
 );
 return $properties;

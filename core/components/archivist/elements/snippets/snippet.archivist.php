@@ -60,6 +60,15 @@ $persistGetParams = $modx->getOption('persistGetParams',$scriptProperties,false)
 $extraParams = $modx->getOption('extraParams',$scriptProperties,array());
 $extraParams = $archivist->mergeGetParams($extraParams,$persistGetParams,$filterPrefix);
 
+/* set locale for date processing */
+if ($modx->getOption('setLocale',$scriptProperties,true)) {
+    $cultureKey = $modx->getOption('cultureKey',null,'en');
+    $locale = !empty($scriptProperties['locale']) ? $scriptProperties['locale'] : $cultureKey;
+    if (!empty($locale)) {
+        setlocale(LC_ALL,$locale);
+    }
+}
+
 /* find children of parents */
 $children = array();
 foreach ($parents as $parent) {
@@ -113,12 +122,6 @@ $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'")');
 /* if limiting to X records */
 if (!empty($limit)) { $c->limit($limit,$start); }
 $resources = $modx->getCollection('modResource',$c);
-
-/* set culture key */
-$cultureKey = $modx->getOption('cultureKey',null,'en');
-if ($cultureKey != 'en' && $modx->getOption('setLocale',$scriptProperties,true)) {
-    setlocale(LC_ALL,$cultureKey);
-}
 
 /* iterate over resources */
 $output = '';

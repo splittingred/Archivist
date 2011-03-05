@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.0.2
+===============
+- [#10] Added &locale to allow users to override cultureKey locale setting
+
 Archivist 1.0.1
 ===============
 - [#9] Fix bug with tvFilters in getArchives
