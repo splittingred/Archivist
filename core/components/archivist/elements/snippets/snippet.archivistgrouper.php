@@ -44,6 +44,7 @@ $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
 $dateFormat = !empty($scriptProperties['dateFormat']) ? $scriptProperties['dateFormat'] : '';
 $limitGroups = $modx->getOption('limitGroups',$scriptProperties,5);
+$limitItems = $modx->getOption('limitItems',$scriptProperties,0);
 $resourceSeparator = $modx->getOption('resourceSeparator',$scriptProperties,"\n");
 $groupSeparator = $modx->getOption('monthSeparator',$scriptProperties,"\n");
 
@@ -169,7 +170,6 @@ foreach ($resources as $resource) {
             if (!empty($extraParams)) $params .= '&'.$extraParams;
             $groupArray['url'] = $modx->makeUrl($target,'',$params);
         }
-        
         $output[] = $archivist->getChunk($groupTpl,$groupArray);
         $children = array();
         $childIdx = 0;
@@ -177,7 +177,10 @@ foreach ($resources as $resource) {
         $groupIdx++;
         $currentTime = $activeTime;
     }
-    $children[] = $archivist->getChunk($itemTpl,$resourceArray);
+
+    if ($limitItems == 0 || $childIdx < $limitItems) {
+        $children[] = $archivist->getChunk($itemTpl,$resourceArray);
+    }
     $childIdx++;
     if ($countGroups >= $limitGroups) {
         break;

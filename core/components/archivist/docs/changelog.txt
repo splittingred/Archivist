@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.1.0
 ===============
+- Add limitItems property to ArchivistGrouper to allow for limiting of # of items that show in each group
 - Add ArchivistGrouper snippet for displaying Resources grouped by month or year
 
 Archivist 1.0.2
