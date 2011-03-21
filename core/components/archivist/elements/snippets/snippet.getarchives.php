@@ -178,7 +178,7 @@ if (!empty($debug)) {
     $criteria->prepare();
     $modx->log(modX::LOG_LEVEL_ERROR, $criteria->toSQL());
 }
-$collection = $modx->getCollection('modResource', $criteria);
+$collection = $modx->getIterator('modResource', $criteria);
 
 $idx = !empty($idx) ? intval($idx) : 1;
 $first = empty($first) && $first !== '0' ? 1 : intval($first);

@@ -30,4 +30,15 @@ $properties = include $sources['properties'].'properties.getarchives.php';
 $snippets[2]->setProperties($properties);
 unset($properties);
 
+$snippets[3]= $modx->newObject('modSnippet');
+$snippets[3]->fromArray(array(
+    'id' => 3,
+    'name' => 'ArchivistByMonth',
+    'description' => '',
+    'snippet' => getSnippetContent($sources['elements'].'snippets/snippet.archivistbymonth.php'),
+),'',true,true);
+$properties = include $sources['properties'].'properties.archivistbymonth.php';
+$snippets[3]->setProperties($properties);
+unset($properties);
+
 return $snippets;

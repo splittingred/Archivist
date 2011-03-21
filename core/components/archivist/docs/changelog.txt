@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.1.0
+===============
+- Add ArchivistGrouper snippet for displaying Resources grouped by month or year
+
 Archivist 1.0.2
 ===============
 - [#10] Added &locale to allow users to override cultureKey locale setting

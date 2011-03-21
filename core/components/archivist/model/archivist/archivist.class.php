@@ -80,9 +80,9 @@ class Archivist {
      * @return modChunk/boolean Returns the modChunk object if found, otherwise
      * false.
      */
-    private function _getTplChunk($name) {
+    private function _getTplChunk($name,$postFix = '.chunk.tpl') {
         $chunk = false;
-        $f = $this->config['chunksPath'].strtolower($name).'.chunk.tpl';
+        $f = $this->config['chunksPath'].strtolower($name).$postFix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
             $chunk = $this->modx->newObject('modChunk');
@@ -125,7 +125,7 @@ class Archivist {
             unset($getParams[$this->modx->getOption('request_param_alias',null,'q')],$getParams[$prefix.'year'],$getParams[$prefix.'month'],$getParams[$prefix.'day']);
         } else { $getParams = array(); }
 
-        $array = explode('&',$array);
+        $array = is_string($array) ? explode('&',$array) : $array;
         $params = array();
         foreach ($array as $nvp) {
             $nvp = explode('=',$nvp);

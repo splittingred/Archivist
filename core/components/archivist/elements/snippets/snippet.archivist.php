@@ -121,7 +121,7 @@ $c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$so
 $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'")');
 /* if limiting to X records */
 if (!empty($limit)) { $c->limit($limit,$start); }
-$resources = $modx->getCollection('modResource',$c);
+$resources = $modx->getIterator('modResource',$c);
 
 /* iterate over resources */
 $output = '';
@@ -143,7 +143,6 @@ foreach ($resources as $resource) {
     $resourceArray['weekday'] = strftime('%A',$dateObj);
     $resourceArray['weekday_abbr'] = strftime('%a',$dateObj);
     $resourceArray['weekday_idx'] = strftime('%w',$dateObj);
-
 
     /* css classes */
     $resourceArray['cls'] = $cls;

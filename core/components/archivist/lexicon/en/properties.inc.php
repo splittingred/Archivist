@@ -40,8 +40,8 @@ $_lang['prop_archivist.sortby_desc'] = 'Field to sort by. Defaults to publishedo
 $_lang['prop_archivist.sortdir_desc'] = 'Order which to sort by. Defaults to DESC.';
 $_lang['prop_archivist.limit_desc'] = 'Limits the number of resources returned. Defaults to 10.';
 $_lang['prop_archivist.start_desc'] = 'Optional. An offset of resources returned by the criteria to skip.';
-$_lang['prop_archivist.usemonth_desc'] = 'If true, will use the month in the archive list.';
-$_lang['prop_archivist.useday_desc'] = 'If true, will use the day in the archive list.';
+$_lang['prop_archivist.usemonth_desc'] = 'If 1, will use the month in the archive list.';
+$_lang['prop_archivist.useday_desc'] = 'If 1, will use the day in the archive list.';
 $_lang['prop_archivist.dateformat_desc'] = 'Optional. The date format, according to MySQL DATE_FORMAT() syntax, for each row. If blank, Archivist will calculate this automatically.';
 $_lang['prop_archivist.usefurls_desc'] = 'If true, will generate links in pretty Friendly URL format.';
 $_lang['prop_archivist.persistgetparams_desc'] = 'If true, links generated will persist the GET params of the page they are on. Not recommended.';
@@ -52,8 +52,9 @@ $_lang['prop_archivist.firstcls_desc'] = 'Optional. A CSS class to add to the fi
 $_lang['prop_archivist.lastcls_desc'] = 'Optional. A CSS class to add to the last row. If empty will ignore.';
 $_lang['prop_archivist.filterprefix_desc'] = 'The prefix to use for GET parameters with the Archivist links. Make sure this is the same as the filterPrefix parameter on the getArchives snippet call.';
 $_lang['prop_archivist.toplaceholder_desc'] = 'If set, will set the output of this snippet to this placeholder rather than output it.';
-$_lang['prop_archivist.setlocale_desc'] = 'If true, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".';
+$_lang['prop_archivist.setlocale_desc'] = 'If 1, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".';
 $_lang['prop_archivist.locale_desc'] = 'If this is set and setLocale is 1, will use this value instead of the cultureKey setting to set the locale by.';
+$_lang['prop_archivist.hidecontainers_desc'] = 'If 1, will not show Containers in the results.';
 
 /* getArchives snippet */
 $_lang['prop_getarchives.tpl_desc'] = 'Name of a chunk serving as a resource template.';
@@ -80,4 +81,33 @@ $_lang['prop_getarchives.tvprefix_desc'] = 'The prefix for TemplateVar propertie
 $_lang['prop_getarchives.idx_desc'] = 'You can define the starting idx of the resources, which is an property that is incremented as each resource is rendered.';
 $_lang['prop_getarchives.first_desc'] = 'Define the idx which represents the first resource (see tplFirst). Defaults to 1.';
 $_lang['prop_getarchives.last_desc'] = 'Define the idx which represents the last resource (see tplLast). Defaults to the number of resources being summarized + first - 1';
-$_lang['prop_getarchives.debug_desc'] = 'If true, will send the SQL query to the MODx log. Defaults to false.';
+$_lang['prop_getarchives.debug_desc'] = 'If 1, will send the SQL query to the MODx log. Defaults to false.';
+
+/* ArchivistByMonth Snippet */
+$_lang['prop_archivistgrouper.mode_desc'] = 'What to group by; either month or year.';
+$_lang['prop_archivistgrouper.itemtpl_desc'] = 'Name of a Chunk that will be used for each Resource within the month.';
+$_lang['prop_archivistgrouper.grouptpl_desc'] = 'Name of a Chunk that will be used for each month or year.';
+$_lang['prop_archivistgrouper.parents_desc'] = 'Optional. Comma-delimited list of ids serving as parents. Will default to the current Resource otherwise.';
+$_lang['prop_archivistgrouper.depth_desc'] = 'Integer value indicating depth to search for resources from each parent. Defaults to 10.';
+$_lang['prop_archivistgrouper.sortby_desc'] = 'Field to sort by. Defaults to publishedon. You should use only date fields.';
+$_lang['prop_archivistgrouper.sortdir_desc'] = 'Order which to sort by. Defaults to DESC.';
+$_lang['prop_archivistgrouper.limitgroups_desc'] = 'Limits the number of months/years returned. Defaults to 5.';
+$_lang['prop_archivistgrouper.dateformat_desc'] = 'Optional. The date format, according to MySQL DATE_FORMAT() syntax, for each row. If blank, Archivist will calculate this automatically.';
+$_lang['prop_archivistgrouper.cls_desc'] = 'A CSS class to add to each row.';
+$_lang['prop_archivistgrouper.altcls_desc'] = 'A CSS class to add to each alternate row.';
+$_lang['prop_archivistgrouper.firstcls_desc'] = 'Optional. A CSS class to add to the first row. If empty will ignore.';
+$_lang['prop_archivistgrouper.lastcls_desc'] = 'Optional. A CSS class to add to the last row. If empty will ignore.';
+$_lang['prop_archivistgrouper.toplaceholder_desc'] = 'If set, will set the output of this snippet to this placeholder rather than output it.';
+$_lang['prop_archivistgrouper.setlocale_desc'] = 'If 1, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".';
+$_lang['prop_archivistgrouper.locale_desc'] = 'If this is set and setLocale is 1, will use this value instead of the cultureKey setting to set the locale by.';
+$_lang['prop_archivistgrouper.hidecontainers_desc'] = 'If 1, will not show Containers in the results.';
+$_lang['prop_archivistgrouper.filterprefix_desc'] = 'The prefix to use for GET parameters with the Archivist links. Make sure this is the same as the filterPrefix parameter on the getArchives snippet call.';
+$_lang['prop_archivistgrouper.usefurls_desc'] = 'If true, will generate links in pretty Friendly URL format.';
+$_lang['prop_archivistgrouper.persistgetparams_desc'] = 'If true, links generated will persist the GET params of the page they are on. Not recommended.';
+$_lang['prop_archivistgrouper.extraparams_desc'] = 'Optional. If specified, will attach this to the URL of each row.';
+
+/* general options */
+$_lang['prop_arc.ascending'] = 'Ascending';
+$_lang['prop_arc.descending'] = 'Descending';
+$_lang['prop_arc.month'] = 'Month';
+$_lang['prop_arc.year'] = 'Year';
