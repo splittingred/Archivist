@@ -123,8 +123,8 @@ $properties = array(
         'desc' => 'prop_getarchives.sortdir_desc',
         'type' => 'list',
         'options' => array(
-            array('text' => 'ASC','vaue' => 'ASC'),
-            array('text' => 'DESC','value' => 'DESC'),
+            array('text' => 'prop_arc.ascending','vaue' => 'ASC'),
+            array('text' => 'prop_arc.descending','value' => 'DESC'),
         ),
         'value' => 'DESC',
         'lexicon' => 'archivist:properties',

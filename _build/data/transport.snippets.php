@@ -33,11 +33,11 @@ unset($properties);
 $snippets[3]= $modx->newObject('modSnippet');
 $snippets[3]->fromArray(array(
     'id' => 3,
-    'name' => 'ArchivistByMonth',
+    'name' => 'ArchivistGrouper',
     'description' => '',
-    'snippet' => getSnippetContent($sources['elements'].'snippets/snippet.archivistbymonth.php'),
+    'snippet' => getSnippetContent($sources['elements'].'snippets/snippet.archivistgrouper.php'),
 ),'',true,true);
-$properties = include $sources['properties'].'properties.archivistbymonth.php';
+$properties = include $sources['properties'].'properties.archivistgrouper.php';
 $snippets[3]->setProperties($properties);
 unset($properties);
 
