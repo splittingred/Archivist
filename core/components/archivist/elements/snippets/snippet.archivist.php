@@ -94,13 +94,13 @@ $c = $modx->newQuery('modResource');
 $fields = $modx->getSelectColumns('modResource','','',array('id',$sortBy));
 $c->select($fields);
 $c->select(array(
-    'FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'") AS `date`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'") AS `date`',
-    'FROM_UNIXTIME(`'.$sortBy.'`,"%D") AS `day_formatted`',
-    'COUNT(*) AS `count`',
+    'FROM_UNIXTIME('.$sortBy.',"'.$sqlDateFormat.'") AS '.$modx->escape('date'),
+    'FROM_UNIXTIME('.$sortBy.',"'.$sqlDateFormat.'") AS '.$modx->escape('date'),
+    'FROM_UNIXTIME('.$sortBy.',"%D") AS '.$modx->escape('day_formatted'),
+    'COUNT('.$modx->escape('id').') AS '.$modx->escape('count'),
 ));
 $c->where(array(
-    '`parent` IN ('.implode(',',$parents).')',
+    'parent:IN' => $parents,
     'published' => true,
     'deleted' => false,
 ));
@@ -124,7 +124,7 @@ if (!empty($limit)) { $c->limit($limit,$start); }
 $resources = $modx->getIterator('modResource',$c);
 
 /* iterate over resources */
-$output = '';
+$output = array();
 $idx = 0;
 $count = count($resources);
 foreach ($resources as $resource) {
@@ -176,11 +176,13 @@ foreach ($resources as $resource) {
         $resourceArray['url'] = $modx->makeUrl($target,'',$params);
     }
 
-    $output .= $archivist->getChunk($tpl,$resourceArray);
+    $output[] = $archivist->getChunk($tpl,$resourceArray);
     $idx++;
 }
 
 /* output or set to placeholder */
+$outputSeparator = $modx->getOption('outputSeparator',$scriptProperties,"\n");
+$output = implode($outputSeparator,$output);
 $toPlaceholder = $modx->getOption('toPlaceholder',$scriptProperties,false);
 if (!empty($toPlaceholder)) {
     $modx->setPlaceholder($toPlaceholder,$output);

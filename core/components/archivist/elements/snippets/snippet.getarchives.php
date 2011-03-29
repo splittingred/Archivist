@@ -117,11 +117,14 @@ $totalVar = $modx->getOption('totalVar',$scriptProperties,'total');
 /* build query */
 $contextResourceTbl = $modx->getTableName('modContextResource');
 $context = empty($context) ? $modx->quote($modx->context->get('key')) : $modx->quote($context);
-$criteria = $modx->newQuery('modResource', array(
-    'deleted' => '0'
-    ,'published' => '1'
-    ,"`modResource`.`parent` IN (" . implode(',', $parents) . ")"
-    ,"(`modResource`.`context_key` = {$context} OR EXISTS(SELECT 1 FROM {$contextResourceTbl} `ctx` WHERE `ctx`.`resource` = `modResource`.`id` AND `ctx`.`context_key` = {$context}))"
+$criteria = $modx->newQuery('modResource');
+$criteria->where(array(
+    'deleted' => '0',
+    'published' => '1',
+    "modResource.parent:IN" => $parents,
+));
+$criteria->where(array(
+    "(modResource.context_key IN ({$context}) OR EXISTS(SELECT 1 FROM {$contextResourceTbl} ctx WHERE ctx.resource = modResource.id AND ctx.context_key IN ({$context})))",
 ));
 if (empty($showHidden)) {
     $criteria->andCondition(array('hidemenu' => '0'));
@@ -149,10 +152,10 @@ if (!empty($tvFilters)) {
             if (count($f) == 2) {
                 $tvName = $modx->quote($f[0]);
                 $tvValue = $modx->quote($f[1]);
-                $conditions[$filterGroup][] = "EXISTS (SELECT 1 FROM {$tmplVarResourceTbl} `tvr` JOIN {$tmplVarTbl} `tv` ON `tvr`.`value` LIKE {$tvValue} AND `tv`.`name` = {$tvName} AND `tv`.`id` = `tvr`.`tmplvarid` WHERE `tvr`.`contentid` = `modResource`.`id`)";
+                $conditions[$filterGroup][] = "EXISTS (SELECT 1 FROM {$tmplVarResourceTbl} tvr JOIN {$tmplVarTbl} tv ON tvr.value LIKE {$tvValue} AND tv.name = {$tvName} AND tv.id = tvr.tmplvarid WHERE tvr.contentid = modResource.id)";
             } elseif (count($f) == 1) {
                 $tvValue = $modx->quote($f[0]);
-                $conditions[$filterGroup][] = "EXISTS (SELECT 1 FROM {$tmplVarResourceTbl} `tvr` JOIN {$tmplVarTbl} `tv` ON `tvr`.`value` LIKE {$tvValue} AND `tv`.`id` = `tvr`.`tmplvarid` WHERE `tvr`.`contentid` = `modResource`.`id`)";
+                $conditions[$filterGroup][] = "EXISTS (SELECT 1 FROM {$tmplVarResourceTbl} tvr JOIN {$tmplVarTbl} tv ON tvr.value LIKE {$tvValue} AND tv.id = tvr.tmplvarid WHERE tvr.contentid = modResource.id)";
             }
         }
     }

@@ -91,7 +91,7 @@ if (!empty($where)) {
     $where = $modx->fromJSON($where);
     $c->where($where);
 }
-$c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
+$c->sortby('FROM_UNIXTIME('.$sortBy.',"%Y") '.$sortDir.', FROM_UNIXTIME('.$sortBy.',"%m") '.$sortDir.', FROM_UNIXTIME('.$sortBy.',"%d") '.$sortDir,'');
 $resources = $modx->getIterator('modResource',$c);
 
 /* get grouping constraint */
