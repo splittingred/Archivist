@@ -60,7 +60,6 @@ $_lang['prop_archivist.hidecontainers_desc'] = 'If 1, will not show Containers i
 $_lang['prop_getarchives.tpl_desc'] = 'Name of a chunk serving as a resource template.';
 $_lang['prop_getarchives.filterfield_desc'] = 'The field to use to filter by when filtering by archives. Make sure this is the same as the sortBy parameter on the Archivist snippet call.';
 $_lang['prop_getarchives.filterprefix_desc'] = 'The prefix to use for GET parameters with the Archivist links. Make sure this is the same as the filterPrefix parameter on the Archivist snippet call.';
-$_lang['prop_getarchives.tagsindex_desc'] = 'If set, and a REQUEST var of this index is found, will automatically filter results by the value.';
 $_lang['prop_getarchives.toplaceholder_desc'] = 'If set, will set the output of this snippet to this placeholder rather than output it.';
 $_lang['prop_getarchives.tplodd_desc'] = 'Name of a chunk serving as resource template for resources with an odd idx value (see idx property).';
 $_lang['prop_getarchives.tplfirst_desc'] = 'Name of a chunk serving as resource template for the first resource (see first property).';
@@ -82,6 +81,10 @@ $_lang['prop_getarchives.idx_desc'] = 'You can define the starting idx of the re
 $_lang['prop_getarchives.first_desc'] = 'Define the idx which represents the first resource (see tplFirst). Defaults to 1.';
 $_lang['prop_getarchives.last_desc'] = 'Define the idx which represents the last resource (see tplLast). Defaults to the number of resources being summarized + first - 1';
 $_lang['prop_getarchives.debug_desc'] = 'If 1, will send the SQL query to the MODx log. Defaults to false.';
+$_lang['prop_getarchives.tagkey_desc'] = 'The key to set the tags filter by.';
+$_lang['prop_getarchives.tagkeyvar_desc'] = 'Optional. Name of the REQUEST param key. If exists in the REQUEST - it overrides tagkey. Setting it to empty - it will disable this override.';
+$_lang['prop_getarchives.tagrequestparam_desc'] = 'The REQUEST param key being sent that will be the value for the tags filter.';
+$_lang['prop_getarchives.tagsearchtype_desc'] = 'The type of search to do for the tags.';
 
 /* ArchivistByMonth Snippet */
 $_lang['prop_archivistgrouper.mode_desc'] = 'What to group by; either month or year.';
@@ -111,3 +114,7 @@ $_lang['prop_arc.ascending'] = 'Ascending';
 $_lang['prop_arc.descending'] = 'Descending';
 $_lang['prop_arc.month'] = 'Month';
 $_lang['prop_arc.year'] = 'Year';
+$_lang['tst_beginswith'] = 'Begins With';
+$_lang['tst_contains'] = 'Contains';
+$_lang['tst_endswith'] = 'Ends With';
+$_lang['tst_exact'] = 'Exact';

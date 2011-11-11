@@ -24,6 +24,7 @@
  * @package archivist
  */
 /**
+ * @var modX $modx
  * @package archivist
  */
 if ($modx->event->name != 'OnPageNotFound') return;
@@ -59,12 +60,16 @@ if (!$resourceId) return;
 $params = explode('/', $search);
 if (count($params) < 1) return;
 
-/* set Archivist parameters */
-$_REQUEST[$prefix.'year'] = $params[0];
-if (isset($params[1])) $_REQUEST[$prefix.'month'] = $params[1];
-if (isset($params[2])) $_REQUEST[$prefix.'day'] = $params[2];
+/* tag handling! */
+if ($params[0] == 'tags') {
+    $_REQUEST['tag'] = $params[1];
+} else {
+    /* set Archivist parameters for date-based archives */
+    $_REQUEST[$prefix.'year'] = $params[0];
+    if (isset($params[1])) $_REQUEST[$prefix.'month'] = $params[1];
+    if (isset($params[2])) $_REQUEST[$prefix.'day'] = $params[2];
+}
 
 /* forward */
 $modx->sendForward($resourceId);
 return;
-?>

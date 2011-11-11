@@ -28,8 +28,12 @@
  *
  * Used to display a list of Resources for a given archive state.
  *
- * Written by Shaun McCormick <shaun@modx.com>. Based on getResources by Jason Coward <jason@modxcms.com>
+ * Written by Shaun McCormick <shaun+archivist@modx.com>. Based on getResources by Jason Coward <jason@modxcms.com>
  *
+ * @var Archivist $archivist
+ * @var modX $modx
+ * @var array $scriptProperties
+ * 
  * @package archivist
  */
 $archivist = $modx->getService('archivist','Archivist',$modx->getOption('archivist.core_path',null,$modx->getOption('core_path').'components/archivist/').'model/archivist/',$scriptProperties);
@@ -38,7 +42,6 @@ if (!($archivist instanceof Archivist)) return '';
 /* setup some getArchives-specific properties */
 $filterPrefix = $modx->getOption('filterPrefix',$scriptProperties,'arc_');
 $filterField = $modx->getOption('filterField',$scriptProperties,'publishedon');
-$tagsIndex = $modx->getOption('tagsIndex',$scriptProperties,'tags');
 
 /* first off, let's sync the archivist.archive_ids setting */
 $archivist->makeArchive($modx->resource->get('id'),$filterPrefix);
@@ -68,16 +71,24 @@ if (!empty($day)) {
 }
 $scriptProperties['where'] = $modx->toJSON($where);
 
-/* automatically integrate for tags (fun!) */
-if (!empty($tagsIndex) && isset($_REQUEST[$tagsIndex])) {
-    $tags = $archivist->sanitize($_REQUEST[$tagsIndex]);
-    if (empty($scriptProperties['tvFilters'])) {
-        $scriptProperties['tvFilters'] = $tagsIndex.'==%'.$tags.'%';
+/* better tags handling */
+$tagKeyVar = $modx->getOption('tagKeyVar',$scriptProperties,'key');
+$tagKey = (!empty($tagKeyVar) && !empty($_GET[$tagKeyVar]))? $_GET[$tagKeyVar] : $modx->getOption('tagKey',$scriptProperties,'tags');
+$tagRequestParam = $modx->getOption('tagRequestParam',$scriptProperties,'tag');
+$tag = $modx->getOption('tag',$scriptProperties,urldecode($_REQUEST[$tagRequestParam]));
+if (!empty($tag)) {
+    $tag = $modx->stripTags($tag);
+    $tagSearchType = $modx->getOption('tagSearchType',$scriptProperties,'exact');
+    if ($tagSearchType == 'contains') {
+        $scriptProperties['tvFilters'] = $tagKey.'==%'.$tag.'%';
+    } else if ($tagSearchType == 'beginswith') {
+        $scriptProperties['tvFilters'] = $tagKey.'==%'.$tag.'';
+    } else if ($tagSearchType == 'endswith') {
+        $scriptProperties['tvFilters'] = $tagKey.'=='.$tag.'%';
     } else {
-        $scriptProperties['tvFilters'] .= ','.$tagsIndex.'==%'.$tags.'%';
+        $scriptProperties['tvFilters'] = $tagKey.'=='.$tag.'';
     }
 }
-
 
 /* below this is mostly getResources code, with extra 'where' and 'toPlaceholder' parameters */
 
