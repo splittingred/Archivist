@@ -186,7 +186,7 @@ $modx->setPlaceholder($totalVar, $total);
 
 $criteria->sortby($sortby, $sortdir);
 if (!empty($limit)) $criteria->limit($limit, $offset);
-$columns = $includeContent ? '*' : $modx->getSelectColumns('modResource', 'modResource', '', array('content'), true);
+$columns = $includeContent ? array('modResource.*') : $modx->getSelectColumns('modResource', 'modResource', '', array('content'), true);
 $criteria->select($columns);
 if (!empty($debug)) {
     $criteria->prepare();
