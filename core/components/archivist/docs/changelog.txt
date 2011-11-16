@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.1.2
+===============
+- Fix issues with &where in getArchives
+
 Archivist 1.1.0
 ===============
 - Better tagging support

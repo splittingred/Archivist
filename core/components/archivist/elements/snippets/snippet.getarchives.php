@@ -47,7 +47,9 @@ $filterField = $modx->getOption('filterField',$scriptProperties,'publishedon');
 $archivist->makeArchive($modx->resource->get('id'),$filterPrefix);
 
 /* get filter by year, month, and/or day. Sanitize to prevent injection. */
-$where = array();
+$where = $modx->getOption('where',$scriptProperties,false);
+$where = is_array($where) ? $where : $modx->fromJSON($where);
+
 $year = $modx->getOption($filterPrefix.'year',$_REQUEST,$modx->getOption('year',$scriptProperties,''));
 $year = (int)$archivist->sanitize($year);
 if (!empty($year)) {
@@ -180,7 +182,6 @@ if (!empty($tvFilters)) {
         }
     }
 }
-
 $total = $modx->getCount('modResource', $criteria);
 $modx->setPlaceholder($totalVar, $total);
 
