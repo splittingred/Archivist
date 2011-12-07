@@ -152,7 +152,7 @@ $properties = array(
         'desc' => 'prop_getarchives.sortdir_desc',
         'type' => 'list',
         'options' => array(
-            array('text' => 'prop_arc.ascending','vaue' => 'ASC'),
+            array('text' => 'prop_arc.ascending','value' => 'ASC'),
             array('text' => 'prop_arc.descending','value' => 'DESC'),
         ),
         'value' => 'DESC',

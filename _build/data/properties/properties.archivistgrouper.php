@@ -33,7 +33,7 @@ $properties = array(
         'desc' => 'prop_archivistgrouper.mode_desc',
         'type' => 'list',
         'options' => array(
-            array('text' => 'prop_arc.month','vaue' => 'month'),
+            array('text' => 'prop_arc.month','value' => 'month'),
             array('text' => 'prop_arc.year','value' => 'year'),
         ),
         'value' => 'month',
@@ -92,7 +92,7 @@ $properties = array(
         'desc' => 'prop_archivistgrouper.sortdir_desc',
         'type' => 'list',
         'options' => array(
-            array('text' => 'prop_arc.ascending','vaue' => 'ASC'),
+            array('text' => 'prop_arc.ascending','value' => 'ASC'),
             array('text' => 'prop_arc.descending','value' => 'DESC'),
         ),
         'value' => 'DESC',

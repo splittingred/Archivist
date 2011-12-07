@@ -3,6 +3,7 @@ Changelog for Archivist.
 Archivist 1.2.0
 ===============
 - Add &groupByYear and &groupByYearTpl to allow for grouping results by year in Archivist, into nested lists
+- [#4250] Fix typo in properties list options for sorting properties
 - [#5241] Fix issue with locales and month name
 - [#5015] Default showHidden for getArchives to 1
 
