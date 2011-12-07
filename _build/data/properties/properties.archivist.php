@@ -84,7 +84,7 @@ $properties = array(
         'desc' => 'prop_archivist.limit_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => '10',
+        'value' => '12',
         'lexicon' => 'archivist:properties',
     ),
     array(

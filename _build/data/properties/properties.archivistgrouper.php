@@ -103,7 +103,7 @@ $properties = array(
         'desc' => 'prop_archivistgrouper.limitgroups_desc',
         'type' => 'textfield',
         'options' => '',
-        'value' => 5,
+        'value' => 12,
         'lexicon' => 'archivist:properties',
     ),
     array(
