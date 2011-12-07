@@ -139,6 +139,7 @@ $criteria->where(array(
 $criteria->where(array(
     "(modResource.context_key IN ({$context}) OR EXISTS(SELECT 1 FROM {$contextResourceTbl} ctx WHERE ctx.resource = modResource.id AND ctx.context_key IN ({$context})))",
 ));
+$showHidden = $modx->getOption('showHidden',null,1);
 if (empty($showHidden)) {
     $criteria->andCondition(array('hidemenu' => '0'));
 }
