@@ -112,6 +112,14 @@ class Archivist {
      */
     public function translateMonth($month) {
         $month = date('Y').'-'.$month.'-01';
+
+        /* set locale for date processing */
+        if ($this->modx->getOption('locale',null,true)) {
+            $locale = $this->modx->getOption('locale',null,'en');
+            if (!empty($locale)) {
+                setlocale(LC_ALL,$locale);
+            }
+        }
         return strftime('%B',strtotime($month));
     }
 
