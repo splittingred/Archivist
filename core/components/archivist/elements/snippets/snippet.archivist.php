@@ -25,7 +25,7 @@
  */
 /*
  * Display an archived result filter list
- * 
+ *
  * @package archivist
  */
 $archivist = $modx->getService('archivist','Archivist',$modx->getOption('archivist.core_path',null,$modx->getOption('core_path').'components/archivist/').'model/archivist/',$scriptProperties);
@@ -33,11 +33,14 @@ if (!($archivist instanceof Archivist)) return '';
 
 /* setup default properties */
 $tpl = $modx->getOption('tpl',$scriptProperties,'row');
+$wrapperTpl = $modx->getOption('wrapperTpl',$scriptProperties,'wrapper');
 $parents = !empty($scriptProperties['parents']) ? $scriptProperties['parents'] : $modx->resource->get('id');
 $parents = explode(',',$parents);
 $target = !empty($scriptProperties['target']) ? $scriptProperties['target'] : $modx->resource->get('id');
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
+$groupByYear = $modx->getOption('groupByYear',$scriptProperties,true);
+$sortYear = $modx->getOption('sortYear',$scriptProperties,'DESC');
 $depth = $modx->getOption('depth',$scriptProperties,10);
 $where = $modx->getOption('where',$scriptProperties,'');
 
@@ -125,6 +128,7 @@ $resources = $modx->getIterator('modResource',$c);
 
 /* iterate over resources */
 $output = array();
+$groupByYearOutput = array();
 $idx = 0;
 $count = count($resources);
 foreach ($resources as $resource) {
@@ -132,7 +136,7 @@ foreach ($resources as $resource) {
 
     $date = $resource->get($sortBy);
     $dateObj = strtotime($date);
-    
+
     $resourceArray['date'] = strftime($dateFormat,$dateObj);
     $resourceArray['month_name_abbr'] = strftime('%h',$dateObj);
     $resourceArray['month_name'] = strftime('%B',$dateObj);
@@ -176,8 +180,29 @@ foreach ($resources as $resource) {
         $resourceArray['url'] = $modx->makeUrl($target,'',$params);
     }
 
-    $output[] = $archivist->getChunk($tpl,$resourceArray);
+    if ($groupByYear) {
+        $groupByYearOutput[$resourceArray['year']][] = $resourceArray;
+    } else {
+        $output[] = $archivist->getChunk($tpl,$resourceArray);
+    }
+
     $idx++;
+}
+
+if ($groupByYear) {
+    if (strtolower($sortYear) === 'asc') {
+        ksort($groupByYearOutput);
+    } else {
+        krsort($groupByYearOutput);
+    }
+    foreach ($groupByYearOutput as $year => $row) {
+        $wrapper['year'] = $year;
+        $wrapper['row'] = '';
+        foreach ($row as $month) {
+            $wrapper['row']  .= $archivist->getChunk($tpl,$month);
+        }
+        $output[] = $archivist->getChunk($wrapperTpl,$wrapper);
+    }
 }
 
 /* output or set to placeholder */
