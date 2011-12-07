@@ -23,8 +23,12 @@
  *
  * @package archivist
  */
-/*
+/**
  * Display an archived result filter list
+ *
+ * @var modX $modx
+ * @var array $scriptProperties
+ * @var Archivist $archivist
  *
  * @package archivist
  */
@@ -33,13 +37,12 @@ if (!($archivist instanceof Archivist)) return '';
 
 /* setup default properties */
 $tpl = $modx->getOption('tpl',$scriptProperties,'row');
-$wrapperTpl = $modx->getOption('wrapperTpl',$scriptProperties,'wrapper');
 $parents = !empty($scriptProperties['parents']) ? $scriptProperties['parents'] : $modx->resource->get('id');
 $parents = explode(',',$parents);
 $target = !empty($scriptProperties['target']) ? $scriptProperties['target'] : $modx->resource->get('id');
 $sortBy = $modx->getOption('sortBy',$scriptProperties,'publishedon');
 $sortDir = $modx->getOption('sortDir',$scriptProperties,'DESC');
-$groupByYear = $modx->getOption('groupByYear',$scriptProperties,true);
+$groupByYear = $modx->getOption('groupByYear',$scriptProperties,false);
 $sortYear = $modx->getOption('sortYear',$scriptProperties,'DESC');
 $depth = $modx->getOption('depth',$scriptProperties,10);
 $where = $modx->getOption('where',$scriptProperties,'');
@@ -81,6 +84,7 @@ foreach ($parents as $parent) {
 if (!empty($children)) $parents = array_merge($parents, $children);
 
 /* get filter format */
+$sqlDateFormat = '%Y';
 if (empty($dateFormat)) {
     $dateFormat = $sqlDateFormat = '%Y';
     if ($useMonth) {
@@ -131,6 +135,7 @@ $output = array();
 $groupByYearOutput = array();
 $idx = 0;
 $count = count($resources);
+/** @var modResource $resource */
 foreach ($resources as $resource) {
     $resourceArray = $resource->toArray();
 
@@ -190,6 +195,8 @@ foreach ($resources as $resource) {
 }
 
 if ($groupByYear) {
+    $wrapperTpl = $modx->getOption('yearGroupTpl',$scriptProperties,'yeargroup');
+    $wrapperRowSeparator = $modx->getOption('yearGroupRowSeparator',$scriptProperties,"\n");
     if (strtolower($sortYear) === 'asc') {
         ksort($groupByYearOutput);
     } else {
@@ -197,10 +204,25 @@ if ($groupByYear) {
     }
     foreach ($groupByYearOutput as $year => $row) {
         $wrapper['year'] = $year;
-        $wrapper['row'] = '';
-        foreach ($row as $month) {
-            $wrapper['row']  .= $archivist->getChunk($tpl,$month);
+
+        $params = array();
+        $params[$filterPrefix.'year'] = $year;
+
+        if ($useFurls) {
+            $params = implode('/',$params);
+            if (!empty($extraParams)) $params .= '?'.$extraParams;
+            $wrapper['url'] = $modx->makeUrl($target).$params;
+        } else {
+            $params = http_build_query($params);
+            if (!empty($extraParams)) $params .= '&'.$extraParams;
+            $wrapper['url'] = $modx->makeUrl($target,'',$params);
         }
+
+        $wrapper['row'] = array();
+        foreach ($row as $month) {
+            $wrapper['row'][] = $archivist->getChunk($tpl,$month);
+        }
+        $wrapper['row'] = implode($wrapperRowSeparator,$wrapper['row']);
         $output[] = $archivist->getChunk($wrapperTpl,$wrapper);
     }
 }

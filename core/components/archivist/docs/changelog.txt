@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.2.0
+===============
+- Add &groupByYear and &groupByYearTpl to allow for grouping results by year in Archivist, into nested lists
+
 Archivist 1.1.2
 ===============
 - Fix issues with &where in getArchives

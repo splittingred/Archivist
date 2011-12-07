@@ -55,6 +55,8 @@ $_lang['prop_archivist.toplaceholder_desc'] = 'If set, will set the output of th
 $_lang['prop_archivist.setlocale_desc'] = 'If 1, Archivist will run the setlocale function with your cultureKey setting if your cultureKey is not "en".';
 $_lang['prop_archivist.locale_desc'] = 'If this is set and setLocale is 1, will use this value instead of the cultureKey setting to set the locale by.';
 $_lang['prop_archivist.hidecontainers_desc'] = 'If 1, will not show Containers in the results.';
+$_lang['prop_archivist.groupbyyear_desc'] = 'If 1, Archivist will attempt to group the results by year and display results in a nested list.';
+$_lang['prop_archivist.groupbyyeartpl_desc'] = 'The Chunk to use for the wrapper when grouping by year.';
 
 /* getArchives snippet */
 $_lang['prop_getarchives.tpl_desc'] = 'Name of a chunk serving as a resource template.';

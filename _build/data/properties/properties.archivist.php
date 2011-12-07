@@ -112,6 +112,22 @@ $properties = array(
         'lexicon' => 'archivist:properties',
     ),
     array(
+        'name' => 'groupByYear',
+        'desc' => 'prop_archivist.groupbyyear_desc',
+        'type' => 'combo-boolean',
+        'options' => '',
+        'value' => false,
+        'lexicon' => 'archivist:properties',
+    ),
+    array(
+        'name' => 'groupByYearTpl',
+        'desc' => 'prop_archivist.groupbyyeartpl_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => 'yeargroup',
+        'lexicon' => 'archivist:properties',
+    ),
+    array(
         'name' => 'dateFormat',
         'desc' => 'prop_archivist.dateformat_desc',
         'type' => 'textfield',
