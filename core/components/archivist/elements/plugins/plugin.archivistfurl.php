@@ -62,12 +62,12 @@ if (count($params) < 1) return;
 
 /* tag handling! */
 if ($params[0] == 'tags') {
-    $_REQUEST['tag'] = $params[1];
+    $_GET['tag'] = $params[1];
 } else {
     /* set Archivist parameters for date-based archives */
-    $_REQUEST[$prefix.'year'] = $params[0];
-    if (isset($params[1])) $_REQUEST[$prefix.'month'] = $params[1];
-    if (isset($params[2])) $_REQUEST[$prefix.'day'] = $params[2];
+    $_GET[$prefix.'year'] = $params[0];
+    if (isset($params[1])) $_GET[$prefix.'month'] = $params[1];
+    if (isset($params[2])) $_GET[$prefix.'day'] = $params[2];
 }
 
 /* forward */

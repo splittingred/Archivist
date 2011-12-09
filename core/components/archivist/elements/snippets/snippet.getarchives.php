@@ -44,19 +44,22 @@ $filterPrefix = $modx->getOption('filterPrefix',$scriptProperties,'arc_');
 $filterField = $modx->getOption('filterField',$scriptProperties,'publishedon');
 
 /* first off, let's sync the archivist.archive_ids setting */
-$archivist->makeArchive($modx->resource->get('id'),$filterPrefix);
+if ($modx->getOption('makeArchive',$scriptProperties,true)) {
+    $archivist->makeArchive($modx->resource->get('id'),$filterPrefix);
+}
 
 /* get filter by year, month, and/or day. Sanitize to prevent injection. */
 $where = $modx->getOption('where',$scriptProperties,false);
 $where = is_array($where) ? $where : $modx->fromJSON($where);
+$parameters = $modx->request->getParameters();
 
-$year = $modx->getOption($filterPrefix.'year',$_REQUEST,$modx->getOption('year',$scriptProperties,''));
+$year = $modx->getOption($filterPrefix.'year',$parameters,$modx->getOption('year',$scriptProperties,''));
 $year = (int)$archivist->sanitize($year);
 if (!empty($year)) {
     $modx->setPlaceholder($filterPrefix.'year',$year);
     $where[] = 'FROM_UNIXTIME(`'.$filterField.'`,"%Y") = "'.$year.'"';
 }
-$month = $modx->getOption($filterPrefix.'month',$_REQUEST,$modx->getOption('month',$scriptProperties,''));
+$month = $modx->getOption($filterPrefix.'month',$parameters,$modx->getOption('month',$scriptProperties,''));
 $month = (int)$archivist->sanitize($month);
 if (!empty($month)) {
     if (strlen($month) == 1) $month = '0'.$month;
@@ -64,7 +67,7 @@ if (!empty($month)) {
     $modx->setPlaceholder($filterPrefix.'month_name',$archivist->translateMonth($month));
     $where[] = 'FROM_UNIXTIME(`'.$filterField.'`,"%m") = "'.$month.'"';
 }
-$day = $modx->getOption($filterPrefix.'day',$_REQUEST,$modx->getOption('day',$scriptProperties,''));
+$day = $modx->getOption($filterPrefix.'day',$parameters,$modx->getOption('day',$scriptProperties,''));
 $day = (int)$archivist->sanitize($day);
 if (!empty($day)) {
     if (strlen($day) == 1) $day = '0'.$day;
@@ -75,9 +78,9 @@ $scriptProperties['where'] = $modx->toJSON($where);
 
 /* better tags handling */
 $tagKeyVar = $modx->getOption('tagKeyVar',$scriptProperties,'key');
-$tagKey = (!empty($tagKeyVar) && !empty($_GET[$tagKeyVar]))? $_GET[$tagKeyVar] : $modx->getOption('tagKey',$scriptProperties,'tags');
+$tagKey = (!empty($tagKeyVar) && !empty($parameters[$tagKeyVar]))? $parameters[$tagKeyVar] : $modx->getOption('tagKey',$scriptProperties,'tags');
 $tagRequestParam = $modx->getOption('tagRequestParam',$scriptProperties,'tag');
-$tag = $modx->getOption('tag',$scriptProperties,urldecode($_REQUEST[$tagRequestParam]));
+$tag = $modx->getOption('tag',$scriptProperties,urldecode($parameters[$tagRequestParam]));
 if (!empty($tag)) {
     $tag = $modx->stripTags($tag);
     $tagSearchType = $modx->getOption('tagSearchType',$scriptProperties,'exact');
@@ -91,7 +94,6 @@ if (!empty($tag)) {
         $scriptProperties['tvFilters'] = $tagKey.'=='.$tag.'';
     }
 }
-
 /* below this is mostly getResources code, with extra 'where' and 'toPlaceholder' parameters */
 
 /* set default properties */
