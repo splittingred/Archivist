@@ -74,6 +74,15 @@ if (!empty($day)) {
     $modx->setPlaceholder($filterPrefix.'day',$day);
     $where[] = 'FROM_UNIXTIME(`'.$filterField.'`,"%d") = "'.$day.'"';
 }
+
+/* author handling */
+if (!empty($parameters[$filterPrefix.'author'])) {
+    /** @var modUser $user */
+    $user = $modx->getObject('modUser',array('username' => $parameters[$filterPrefix.'author']));
+    if ($user) {
+        $where['createdby'] = $user->get('id');
+    }
+}
 $scriptProperties['where'] = $modx->toJSON($where);
 
 /* better tags handling */
@@ -94,6 +103,7 @@ if (!empty($tag)) {
         $scriptProperties['tvFilters'] = $tagKey.'=='.$tag.'';
     }
 }
+
 /* below this is mostly getResources code, with extra 'where' and 'toPlaceholder' parameters */
 
 /* set default properties */

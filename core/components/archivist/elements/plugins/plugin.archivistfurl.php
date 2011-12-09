@@ -63,6 +63,8 @@ if (count($params) < 1) return;
 /* tag handling! */
 if ($params[0] == 'tags') {
     $_GET['tag'] = $params[1];
+} else if ($params[0] == 'user' || $params[0] == 'author') {
+    $_GET[$prefix.'author'] = $params[1];
 } else {
     /* set Archivist parameters for date-based archives */
     $_GET[$prefix.'year'] = $params[0];

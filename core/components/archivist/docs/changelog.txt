@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.2.1
 ===============
+- Add author handling
 - Fix issues with getPage, caching and various other sorting issues
 
 Archivist 1.2.0
