@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.2.2
+===============
+- Properly inherit getResources in getArchives snippet
+
 Archivist 1.2.1
 ===============
 - Add author handling
