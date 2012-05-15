@@ -143,7 +143,7 @@ foreach ($resources as $resource) {
     $dateObj = strtotime($date);
 
     $resourceArray['date'] = strftime($dateFormat,$dateObj);
-    $resourceArray['month_name_abbr'] = strftime('%h',$dateObj);
+    $resourceArray['month_name_abbr'] = strftime('%b',$dateObj);
     $resourceArray['month_name'] = strftime('%B',$dateObj);
     $resourceArray['month'] = strftime('%m',$dateObj);
     $resourceArray['year'] = strftime('%Y',$dateObj);

@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.2.3
 ===============
+- [#7412] Fix error with month name on windows machines
 - Fix various E_NOTICE errors
 
 Archivist 1.2.2
