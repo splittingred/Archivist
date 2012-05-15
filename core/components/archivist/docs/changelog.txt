@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.2.3
+===============
+- Fix various E_NOTICE errors
+
 Archivist 1.2.2
 ===============
 - Properly inherit getResources in getArchives snippet
