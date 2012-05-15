@@ -87,9 +87,9 @@ $scriptProperties['where'] = $modx->toJSON($where);
 
 /* better tags handling */
 $tagKeyVar = $modx->getOption('tagKeyVar',$scriptProperties,'key');
-$tagKey = (!empty($tagKeyVar) && !empty($parameters[$tagKeyVar]))? $parameters[$tagKeyVar] : $modx->getOption('tagKey',$scriptProperties,'tags');
+$tagKey = (!empty($tagKeyVar) && array_key_exists($tagKeyVar,$parameters) && !empty($parameters[$tagKeyVar])) ? $parameters[$tagKeyVar] : $modx->getOption('tagKey',$scriptProperties,'tags');
 $tagRequestParam = $modx->getOption('tagRequestParam',$scriptProperties,'tag');
-$tag = $modx->getOption('tag',$scriptProperties,urldecode($parameters[$tagRequestParam]));
+$tag = $modx->getOption('tag',$scriptProperties,array_key_exists($tagRequestParam,$parameters) ? urldecode($parameters[$tagRequestParam]) : '');
 if (!empty($tag)) {
     $tag = $modx->stripTags($tag);
     $tagSearchType = $modx->getOption('tagSearchType',$scriptProperties,'exact');
