@@ -29,13 +29,14 @@
  * @package archivist
  */
 class Archivist {
+    /** @var \modX $modx */
     public $modx;
+    /** @var array $config */
     public $config = array();
 
     function __construct(modX &$modx,array $config = array()) {
     	$this->modx =& $modx;
         $corePath = $modx->getOption('archivist.core_path',null,$modx->getOption('core_path').'components/archivist/');
-        $assetsUrl = $modx->getOption('archivist.assets_url',null,$modx->getOption('assets_url').'components/archivist/');
 
         $this->config = array_merge(array(
             'corePath' => $corePath,
@@ -77,6 +78,7 @@ class Archivist {
      *
      * @access private
      * @param string $name The name of the Chunk. Will parse to name.chunk.tpl
+     * @param string $postFix
      * @return modChunk/boolean Returns the modChunk object if found, otherwise
      * false.
      */
@@ -85,6 +87,7 @@ class Archivist {
         $f = $this->config['chunksPath'].strtolower($name).$postFix;
         if (file_exists($f)) {
             $o = file_get_contents($f);
+            /** @var modChunk $chunk */
             $chunk = $this->modx->newObject('modChunk');
             $chunk->set('name',$name);
             $chunk->setContent($o);
@@ -126,6 +129,11 @@ class Archivist {
 
     /**
      * Merge GET params and any others into a cohesive query string
+     *
+     * @param array|string $array
+     * @param boolean $persistGetParams
+     * @param string $prefix
+     * @return string
      */
     public function mergeGetParams($array,$persistGetParams = false,$prefix = 'arc_') {
         if ($persistGetParams) {
@@ -134,10 +142,15 @@ class Archivist {
         } else { $getParams = array(); }
 
         $array = is_string($array) ? explode('&',$array) : $array;
+        if (is_string($array)) {
+            $array = empty($array) ? array() : explode('&',$array);
+        }
         $params = array();
-        foreach ($array as $nvp) {
-            $nvp = explode('=',$nvp);
-            $params[$nvp[0]] = $nvp[1];
+        if (!empty($array)) {
+            foreach ($array as $nvp) {
+                $nvp = explode('=',$nvp);
+                $params[$nvp[0]] = $nvp[1];
+            }
         }
         $params = array_merge($getParams,$params);
         return http_build_query($params);
@@ -157,6 +170,7 @@ class Archivist {
             'key' => 'archivist.archive_ids',
         ));
         if (!$setting) {
+            /** @var modSystemSetting $setting */
             $setting = $this->modx->newObject('modSystemSetting');
             $setting->fromArray(array(
                 'key' => 'archivist.archive_ids',
@@ -183,6 +197,7 @@ class Archivist {
 
     /**
      * Assistance method for makeArchive's cache clear
+     * @return array
      */
     private function _clearCache() {
         $paths = array(
