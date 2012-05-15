@@ -124,6 +124,12 @@ if (!empty($where)) {
     $where = $modx->fromJSON($where);
     $c->where($where);
 }
+$exclude = $modx->getOption('exclude',$scriptProperties,'');
+if (!empty($exclude)) {
+    $c->where(array(
+        'id:NOT IN' => is_array($exclude) ? $exclude : explode(',',$exclude),
+    ));
+}
 $c->sortby('FROM_UNIXTIME(`'.$sortBy.'`,"%Y") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%m") '.$sortDir.', FROM_UNIXTIME(`'.$sortBy.'`,"%d") '.$sortDir,'');
 $c->groupby('FROM_UNIXTIME(`'.$sortBy.'`,"'.$sqlDateFormat.'")');
 /* if limiting to X records */

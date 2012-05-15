@@ -35,6 +35,7 @@
 $_lang['prop_archivist.tpl_desc'] = 'Name of a Chunk that will be used for each result.';
 $_lang['prop_archivist.target_desc'] = 'The target Resource to point the archive links to. Will default to the current Resource.';
 $_lang['prop_archivist.parents_desc'] = 'Optional. Comma-delimited list of ids serving as parents. Will default to the current Resource otherwise.';
+$_lang['prop_archivist.exclude_desc'] = 'Optional. Comma-delimited list of ids to exclude from results. Defaults to none.';
 $_lang['prop_archivist.depth_desc'] = 'Integer value indicating depth to search for resources from each parent. Defaults to 10.';
 $_lang['prop_archivist.sortby_desc'] = 'Field to sort by. Defaults to publishedon.';
 $_lang['prop_archivist.sortdir_desc'] = 'Order which to sort by. Defaults to DESC.';

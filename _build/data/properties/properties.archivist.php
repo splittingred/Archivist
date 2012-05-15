@@ -61,6 +61,14 @@ $properties = array(
         'lexicon' => 'archivist:properties',
     ),
     array(
+        'name' => 'exclude',
+        'desc' => 'prop_archivist.exclude_desc',
+        'type' => 'textfield',
+        'options' => '',
+        'value' => '',
+        'lexicon' => 'archivist:properties',
+    ),
+    array(
         'name' => 'sortBy',
         'desc' => 'prop_archivist.sortby_desc',
         'type' => 'textfield',
