@@ -149,7 +149,7 @@ class Archivist {
         if (!empty($array)) {
             foreach ($array as $nvp) {
                 $nvp = explode('=',$nvp);
-                if (!empty($nvp[1])) $params[$nvp[0]] = $nvp[1];
+                if (array_key_exists(1, $nvp)) $params[$nvp[0]] = $nvp[1];
             }
         }
         $params = array_merge($getParams,$params);
