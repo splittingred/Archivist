@@ -84,17 +84,16 @@ foreach ($parents as $parent) {
 if (!empty($children)) $parents = array_merge($parents, $children);
 
 /* get filter format */
+$dateEmpty = empty($dateFormat);
 $sqlDateFormat = '%Y';
-if (empty($dateFormat)) {
-    $dateFormat = $sqlDateFormat = '%Y';
-    if ($useMonth) {
-        $dateFormat = '%B '.$dateFormat;
-        $sqlDateFormat = '%b '.$sqlDateFormat;
-    }
-    if ($useDay) {
-        $dateFormat = '%d '.$dateFormat;
-        $sqlDateFormat = '%d '.$sqlDateFormat;
-    }
+if ($dateEmpty) $dateFormat = '%Y';
+if ($useMonth) {
+    if ($dateEmpty) $dateFormat = '%B '.$dateFormat;
+    $sqlDateFormat = '%b '.$sqlDateFormat;
+}
+if ($useDay) {
+    if ($dateEmpty) $dateFormat = '%d '.$dateFormat;
+    $sqlDateFormat = '%d '.$sqlDateFormat;
 }
 /* build query */
 $c = $modx->newQuery('modResource');
