@@ -1,5 +1,9 @@
 Changelog for Archivist.
 
+Archivist 1.2.4
+===============
+- Remove deprecated code sometimes causing PHP notice error (gh#15)
+
 Archivist 1.2.3
 ===============
 - [#4650] Add &exclude parameter for excluding various Resources from results in Archivist snippet

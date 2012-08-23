@@ -141,7 +141,6 @@ class Archivist {
             unset($getParams[$this->modx->getOption('request_param_alias',null,'q')],$getParams[$prefix.'year'],$getParams[$prefix.'month'],$getParams[$prefix.'day']);
         } else { $getParams = array(); }
 
-        $array = is_string($array) ? explode('&',$array) : $array;
         if (is_string($array)) {
             $array = empty($array) ? array() : explode('&',$array);
         }
