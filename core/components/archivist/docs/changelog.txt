@@ -2,6 +2,7 @@ Changelog for Archivist.
 
 Archivist 1.2.4
 ===============
+- Add sanity check for get params merge rarely causing PHP notice error (gh#16)
 - Remove deprecated code sometimes causing PHP notice error (gh#15)
 
 Archivist 1.2.3
